@@ -3,6 +3,8 @@ services:
     image: ghcr.io/gitroomhq/postiz-app:latest
     container_name: postiz
     restart: always
+    env_file:
+      - .env
     environment:
       # === Required Settings
       MAIN_URL: 'http://localhost:4007'
@@ -82,7 +84,12 @@ services:
       # SENTRY_SPOTLIGHT: '1'
 
       # === Misc Settings
-      OPENAI_API_KEY: ''
+      # Postiz upstream currently keys its Copilot endpoint off OpenAI-compatible env names.
+      # Route that to Ollama Cloud/Kimi via project .env; OPENAI_BASE_URL/MODEL are harmless
+      # if ignored by the current image, and become active if upstream/fork support lands.
+      OPENAI_API_KEY: '${OLLAMA_API_KEY}'
+      OPENAI_BASE_URL: '${OPENAI_BASE_URL:-https://ollama.com/v1}'
+      OPENAI_MODEL: '${OPENAI_MODEL:-kimi-k2.6}'
       NEXT_PUBLIC_DISCORD_SUPPORT: ''
       NEXT_PUBLIC_POLOTNO: ''
       API_LIMIT: 30
