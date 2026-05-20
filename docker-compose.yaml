@@ -120,7 +120,7 @@ services:
       - postiz-config:/config/
       - postiz-uploads:/uploads/
     ports:
-      - "4007:5000"
+      - "127.0.0.1:4007:5000"
     networks:
       - postiz-network
       - temporal-network
@@ -167,7 +167,7 @@ services:
     container_name: spotlight
     restart: unless-stopped
     ports:
-      - 8969:8969/tcp
+      - 127.0.0.1:8969:8969/tcp
     image: ghcr.io/getsentry/spotlight:latest
     networks:
       - postiz-network
@@ -223,7 +223,7 @@ services:
     container_name: temporal
     restart: unless-stopped
     ports:
-      - '7233:7233'
+      - '127.0.0.1:7233:7233'
     image: temporalio/auto-setup:1.28.1
     depends_on:
       - temporal-postgresql
